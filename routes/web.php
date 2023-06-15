@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ComicController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [HomeController::class, 'getHome'] )->name('home');
+ Route::get('/', [HomeController::class, 'getHome'] )->name('home');
 
 //genero tramite controller tutte le rotte per le crud
 Route::resource('/comics', ComicController::class);
