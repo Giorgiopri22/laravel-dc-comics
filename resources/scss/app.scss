@@ -1,1 +1,20 @@
 @import '~bootstrap/scss/bootstrap';
+
+@import './partials/header.scss';
+@import './partials/footer.scss';
+@import './partials/main.scss';
+@import './partials/sectionStore.scss';
+@import './partials/singleElem.scss';
+
+
+.colorLightBlue{
+    color: lightblue;
+}
+
+.borderLightBlue{
+    border-bottom: 0.3rem solid lightblue;
+}
+
+.colorBack{
+    background-color: #1c1c1c;
+}

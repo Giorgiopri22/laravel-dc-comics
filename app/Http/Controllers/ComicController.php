@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Comic;
 use Illuminate\Http\Request;
 
-
 class ComicController extends Controller
 {
     /**
@@ -15,11 +14,10 @@ class ComicController extends Controller
      */
     public function index()
     {
+        //recupero dati dal DB
         $comics = Comic::All();
 
-        // Passo i dati alla vista "index"
-
-        return view('comics.index', compact('comics'));
+        return view( 'pages.comics.index', compact('comics') );
     }
 
     /**
@@ -29,7 +27,7 @@ class ComicController extends Controller
      */
     public function create()
     {
-        return view('comics.create');
+        return view('pages.comics.create');
     }
 
     /**
@@ -40,7 +38,25 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //logica per salvare il nuovo dato nel DB
+        $form_data = $request->all();
+
+        $new_comic = new Comic();
+
+        // $new_comic->title = $form_data['title'];
+        // $new_comic->description = $form_data['description'];
+        // $new_comic->thumb = $form_data['thumb'];
+        // $new_comic->price = $form_data['price'];
+        // $new_comic->series = $form_data['series'];
+        // $new_comic->sale_date = $form_data['sale_date'];
+        // $new_comic->type = $form_data['type'];
+
+        //Solo grazie al model con protected $fillable
+        $new_comic->fill( $form_data );
+
+        $new_comic->save();
+
+        return redirect()->route( 'comics.index' );
     }
 
     /**
@@ -51,8 +67,11 @@ class ComicController extends Controller
      */
     public function show($id)
     {
+        //logica per ottenere i dati del singolo record
         $comic = Comic::findOrFail($id);
-        return view('comics.show', compact('comic'));
+
+
+        return view('pages.comics.show', compact('comic'));
     }
 
     /**
@@ -63,7 +82,7 @@ class ComicController extends Controller
      */
     public function edit(Comic $comic)
     {
-        //
+        return view( 'pages.comics.edit', compact('comic'));
     }
 
     /**
@@ -75,7 +94,10 @@ class ComicController extends Controller
      */
     public function update(Request $request, Comic $comic)
     {
-        //
+        $form_data = $request->all();
+        $comic->update($form_data);
+
+        return redirect()->route('comics.index');
     }
 
     /**
@@ -86,6 +108,8 @@ class ComicController extends Controller
      */
     public function destroy(Comic $comic)
     {
-        //
+        $comic->delete();
+
+        return redirect()->route('comics.index');
     }
 }
