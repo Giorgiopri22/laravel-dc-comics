@@ -38,25 +38,40 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate(
+            [
+                'title' => 'required|max:20',
+                'description'=> 'required',
+                'thumb'=> 'required',
+                'price'=>'required',
+                'series'=>'required|max:15',
+                'sale_date'=>'required',
+                'type'=>'required',
+            ],
+            [
+                'title.required'=> 'Il titolo è obbligatorio',
+                'title.max'=>'Hai superato il numero massimo',
+                'description.required'=>'La descrizione è obbligatoria',
+                'thumb.required'=>'l immagine è obbligatoria',
+                'price.required'=>'Il prezzo è obbligatorio',
+                'series.required'=>'La serie è obbligatorio',
+                'series.max'=>'Hai superato il limite di caratteri',
+                'sale_date.required'=>'La data è obbligatoria',
+                'type.required'=>'Il titolo è obbligatorio',
+            ]);
         //logica per salvare il nuovo dato nel DB
         $form_data = $request->all();
 
         $new_comic = new Comic();
 
-        // $new_comic->title = $form_data['title'];
-        // $new_comic->description = $form_data['description'];
-        // $new_comic->thumb = $form_data['thumb'];
-        // $new_comic->price = $form_data['price'];
-        // $new_comic->series = $form_data['series'];
-        // $new_comic->sale_date = $form_data['sale_date'];
-        // $new_comic->type = $form_data['type'];
-
+        
         //Solo grazie al model con protected $fillable
         $new_comic->fill( $form_data );
 
         $new_comic->save();
 
-        return redirect()->route( 'comics.index' );
+        return redirect()->route( 'comics.index' )->with('success', 'Complimenti hai creato un nuovo fumetto');
     }
 
     /**
